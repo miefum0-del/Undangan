@@ -1,16 +1,62 @@
-import { Calendar, Clock, MapPin, Map, Quote, Heart, Camera, MessageCircle, Users } from "lucide-react";
+'use client'; // Wajib ada karena kita pakai useState (interaksi user)
+
+import { useState } from "react";
+import { Calendar, Clock, MapPin, Map, Quote, Heart, Camera, MessageCircle, Users, Gift, Copy, Send, MessageSquare } from "lucide-react";
 import Image from "next/image";
 
 export default function Home() {
   // --- KONFIGURASI DATA ---
-  // Link Google Maps dari snippet Anda
   const googleMapsLink = "https://maps.app.goo.gl/WNHk9NxCprQd2Px29";
-  
-  // Ganti nomor ini dengan nomor WhatsApp Anda untuk konfirmasi
-  const whatsappNumber = "6282315066622"; 
+  const whatsappNumber = "6282315066622";
   const textWA = encodeURIComponent("Assalamualaikum, InsyaAllah saya akan hadir di acara Khitanan Ananda Akmal (Amay).");
 
-  // Data Foto Galeri (Placeholder - Ganti dengan foto asli di folder public nanti)
+  // --- DATA REKENING (GANTI DI SINI) ---
+  const bankAccounts = [
+    {
+      bank: "BCA",
+      number: "1234567890",
+      name: "H.M Ridwan Abdulloh"
+    },
+    {
+      bank: "BRI",
+      number: "0987654321000",
+      name: "Hj Eva Muzdalifah"
+    }
+  ];
+
+  // --- STATE UNTUK KOMENTAR ---
+  const [comments, setComments] = useState([
+    { name: "Hamba Allah", message: "Semoga menjadi anak yang sholeh, Aamiin.", date: "Baru saja" },
+    { name: "Keluarga Besar", message: "Selamat ya Amay, semoga lancar acaranya.", date: "5 menit lalu" }
+  ]);
+  
+  const [inputName, setInputName] = useState("");
+  const [inputMsg, setInputMsg] = useState("");
+
+  // Fungsi Copy Rekening
+  const handleCopy = (text) => {
+    navigator.clipboard.writeText(text);
+    alert(`Nomor rekening ${text} berhasil disalin!`);
+  };
+
+  // Fungsi Kirim Komentar
+  const handleSubmitComment = (e) => {
+    e.preventDefault();
+    if (!inputName || !inputMsg) return alert("Mohon isi nama dan ucapan.");
+    
+    const newComment = {
+      name: inputName,
+      message: inputMsg,
+      date: "Baru saja"
+    };
+
+    setComments([newComment, ...comments]);
+    setInputName("");
+    setInputMsg("");
+    alert("Terima kasih atas ucapan dan doanya!");
+  };
+
+  // Data Foto Galeri
   const galleryPhotos = [
     { src: "https://images.unsplash.com/photo-1519834785169-98be25ec3f84?auto=format&fit=crop&q=80&w=500", alt: "Foto 1" },
     { src: "https://images.unsplash.com/photo-1542038784456-1ea8e935640e?auto=format&fit=crop&q=80&w=500", alt: "Foto 2" },
@@ -21,7 +67,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-emerald-950 text-amber-50 font-lato overflow-x-hidden">
       
-      {/* --- SECTION 1: HERO (PEMBUKA) --- */}
+      {/* --- SECTION 1: HERO --- */}
       <section className="min-h-screen flex flex-col items-center justify-center p-6 text-center relative bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')] bg-fixed bg-emerald-900/50 bg-blend-overlay">
         <div className="absolute inset-0 bg-gradient-to-b from-emerald-950/80 via-emerald-900/50 to-emerald-950 z-0"></div>
         
@@ -84,14 +130,12 @@ export default function Home() {
       {/* --- SECTION 3: DETAIL ACARA --- */}
       <section className="py-16 px-4 bg-emerald-900/30 border-y border-amber-500/10">
         <div className="max-w-md mx-auto bg-emerald-950 border border-amber-500/30 rounded-xl p-8 shadow-2xl relative overflow-hidden">
-          {/* Ornamen Pojok */}
           <div className="absolute top-0 right-0 -mt-4 -mr-4 w-20 h-20 bg-amber-500/10 rounded-full blur-xl"></div>
           <div className="absolute bottom-0 left-0 -mb-4 -ml-4 w-20 h-20 bg-amber-500/10 rounded-full blur-xl"></div>
           
           <h3 className="text-center font-amiri text-3xl text-amber-400 mb-8 border-b border-amber-500/20 pb-4">Waktu & Tempat</h3>
           
           <div className="space-y-8">
-            {/* Waktu */}
             <div className="flex items-start gap-4">
               <div className="bg-amber-500/20 p-3 rounded-full text-amber-400 mt-1">
                 <Calendar size={24} />
@@ -102,7 +146,6 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Jam */}
             <div className="flex items-start gap-4">
               <div className="bg-amber-500/20 p-3 rounded-full text-amber-400 mt-1">
                 <Clock size={24} />
@@ -113,7 +156,6 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Lokasi */}
             <div className="flex items-start gap-4">
               <div className="bg-amber-500/20 p-3 rounded-full text-amber-400 mt-1">
                 <MapPin size={24} />
@@ -160,22 +202,93 @@ export default function Home() {
         </div>
       </section>
 
-      {/* --- SECTION 5: KATA MUTIARA --- */}
-      <section className="py-16 px-4 bg-emerald-900/20">
-        <div className="max-w-3xl mx-auto text-center">
-          <Heart className="w-10 h-10 text-amber-500 mx-auto mb-6 animate-pulse" />
-          <div className="bg-emerald-900/40 p-8 rounded-2xl border border-amber-500/20">
-            <Quote className="w-8 h-8 text-amber-500/40 mb-4 mx-auto" />
-            <p className="italic text-xl text-emerald-100/90 mb-6 font-amiri leading-relaxed">
-              "Dan Nabi Ibrahim a.s. dikhitan setelah berumur delapan puluh tahun dengan menggunakan kapak."
-            </p>
-            <p className="text-sm text-amber-400 font-bold uppercase tracking-widest">- HR. Bukhari -</p>
+      {/* --- SECTION 5: TANDA KASIH (AMPLOP DIGITAL) --- */}
+      <section className="py-16 px-4 bg-emerald-900/20 border-t border-amber-500/10">
+        <div className="max-w-md mx-auto text-center">
+          <div className="flex items-center justify-center gap-3 mb-6">
+            <Gift className="text-amber-400 animate-bounce" size={28} />
+            <h3 className="font-amiri text-3xl text-amber-400">Tanda Kasih</h3>
+          </div>
+          
+          <p className="text-sm text-emerald-200/80 mb-8">
+            Doa restu Anda merupakan karunia yang sangat berarti bagi kami. Namun jika memberi adalah ungkapan tanda kasih Anda, kami ucapkan terima kasih.
+          </p>
+
+          <div className="space-y-4">
+            {bankAccounts.map((acc, idx) => (
+              <div key={idx} className="bg-emerald-950 border border-amber-500/30 p-6 rounded-xl shadow-lg relative overflow-hidden group">
+                <div className="absolute top-0 left-0 w-2 h-full bg-amber-500"></div>
+                <div className="text-left pl-4">
+                  <p className="text-amber-500 text-sm font-bold tracking-widest mb-1">{acc.bank}</p>
+                  <div className="flex items-center gap-2 mb-1">
+                    <p className="text-2xl font-bold text-amber-50">{acc.number}</p>
+                    <button 
+                      onClick={() => handleCopy(acc.number)}
+                      className="p-2 bg-emerald-900 hover:bg-emerald-800 rounded-full text-amber-400 transition-colors"
+                      title="Salin Nomor Rekening"
+                    >
+                      <Copy size={16} />
+                    </button>
+                  </div>
+                  <p className="text-emerald-200/60 text-sm">a.n {acc.name}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* --- SECTION 6: TURUT MENGUNDANG (BARU) --- */}
-      <section className="py-16 px-4 bg-emerald-950 border-t border-amber-500/10">
+      {/* --- SECTION 6: UCAPAN & DOA (KOMENTAR) --- */}
+      <section className="py-16 px-4 bg-emerald-950">
+        <div className="max-w-md mx-auto">
+          <div className="flex items-center justify-center gap-3 mb-8">
+            <MessageSquare className="text-amber-400" size={28} />
+            <h3 className="font-amiri text-3xl text-amber-400">Ucapan & Doa</h3>
+          </div>
+
+          {/* Form Input */}
+          <form onSubmit={handleSubmitComment} className="bg-emerald-900/30 p-6 rounded-xl border border-amber-500/20 mb-8">
+            <div className="space-y-4">
+              <input 
+                type="text" 
+                placeholder="Nama Lengkap" 
+                value={inputName}
+                onChange={(e) => setInputName(e.target.value)}
+                className="w-full bg-emerald-950 border border-emerald-800 rounded-lg p-3 text-amber-50 focus:outline-none focus:border-amber-500 transition-colors"
+              />
+              <textarea 
+                rows="3" 
+                placeholder="Tuliskan ucapan doa..." 
+                value={inputMsg}
+                onChange={(e) => setInputMsg(e.target.value)}
+                className="w-full bg-emerald-950 border border-emerald-800 rounded-lg p-3 text-amber-50 focus:outline-none focus:border-amber-500 transition-colors"
+              ></textarea>
+              <button 
+                type="submit"
+                className="w-full bg-amber-600 hover:bg-amber-500 text-emerald-950 font-bold py-3 rounded-lg transition-all flex items-center justify-center gap-2"
+              >
+                <Send size={18} /> Kirim Ucapan
+              </button>
+            </div>
+          </form>
+
+          {/* List Komentar */}
+          <div className="space-y-4 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+            {comments.map((comment, idx) => (
+              <div key={idx} className="bg-emerald-900/20 p-4 rounded-lg border-l-2 border-amber-500/50">
+                <div className="flex justify-between items-start mb-1">
+                  <p className="font-bold text-amber-400">{comment.name}</p>
+                  <span className="text-[10px] text-emerald-500/50">{comment.date}</span>
+                </div>
+                <p className="text-sm text-emerald-100/80">{comment.message}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* --- SECTION 7: TURUT MENGUNDANG --- */}
+      <section className="py-16 px-4 bg-emerald-900/10 border-t border-amber-500/10">
         <div className="max-w-2xl mx-auto text-center">
           <div className="flex items-center justify-center gap-3 mb-6">
             <Users className="text-amber-400" size={24} />
@@ -192,7 +305,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* --- SECTION 7: PENUTUP --- */}
+      {/* --- SECTION 8: PENUTUP --- */}
       <section className="py-20 px-4 text-center bg-gradient-to-t from-emerald-950 to-emerald-900">
         <div className="max-w-md mx-auto space-y-8">
           <p className="text-emerald-100/80 text-sm italic">
@@ -217,7 +330,7 @@ export default function Home() {
             <p className="font-amiri text-2xl text-amber-400 font-bold mt-1">Hj Eva Muzdalifah</p>
           </div>
           
-          <p className="text-[10px] text-emerald-500/30 pt-10">Undangan Digital by HeavensQue</p>
+          <p className="text-[10px] text-emerald-500/30 pt-10">Undangan Digital by HeavensQue </p>
         </div>
       </section>
 
