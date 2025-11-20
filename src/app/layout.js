@@ -23,8 +23,8 @@ const lato = Lato({
 });
 
 export const metadata = {
-  title: "Undangan Khitanan Akmal Pratama",
-  description: "Undangan Digital Khitanan Akmal Pratama",
+  title: "Undangan Khitanan Muhammad Akmal Zahir Al 'Asyari",
+  description: "Undangan Digital Khitanan Muhammad Akmal Zahir Al 'Asyari",
 };
 
 export default function RootLayout({ children }) {
