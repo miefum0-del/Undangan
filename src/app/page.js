@@ -10,20 +10,6 @@ export default function Home() {
   const whatsappNumber = "6282315066622";
   const textWA = encodeURIComponent("Assalamualaikum, InsyaAllah saya akan hadir di acara Khitanan Ananda Akmal (Amay).");
 
-  // --- DATA REKENING (GANTI DI SINI) ---
-  const bankAccounts = [
-    {
-      bank: "BCA",
-      number: "1234567890",
-      name: "H.M Ridwan Abdulloh"
-    },
-    {
-      bank: "BRI",
-      number: "0987654321000",
-      name: "Hj Eva Muzdalifah"
-    }
-  ];
-
   // --- STATE UNTUK KOMENTAR ---
   const [comments, setComments] = useState([
     { name: "Hamba Allah", message: "Semoga menjadi anak yang sholeh, Aamiin.", date: "Baru saja" },
@@ -58,10 +44,10 @@ export default function Home() {
 
   // Data Foto Galeri (Placeholder - Ganti dengan foto asli di folder public nanti)
   const galleryPhotos = [
-    { src: "https://images.unsplash.com/photo-1519834785169-98be25ec3f84?auto=format&fit=crop&q=80&w=500", alt: "Foto 1" },
-    { src: "https://images.unsplash.com/photo-1542038784456-1ea8e935640e?auto=format&fit=crop&q=80&w=500", alt: "Foto 2" },
-    { src: "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&q=80&w=500", alt: "Foto 3" },
-    { src: "https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&q=80&w=500", alt: "Foto 4" },
+    { src: "/2.jpeg",alt: "Foto 1" },
+    { src: "/6.jpeg",alt: "Foto 2" },
+    { src: "/4.jpeg",alt: "Foto 3" },
+    { src: "/5.jpeg",alt: "Foto 4" },
   ];
 
   return (
@@ -113,7 +99,7 @@ export default function Home() {
               <div className="w-48 h-48 rounded-full overflow-hidden border-4 border-amber-500 shadow-2xl mx-auto relative bg-emerald-900">
                 {/* GANTI GAMBAR INI DENGAN FOTO ANAK */}
                 <img 
-                  src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&q=80&w=400" 
+                  src="/1.jpeg"
                   alt="Amay" 
                   className="w-full h-full object-cover"
                 />
@@ -216,28 +202,6 @@ export default function Home() {
             <p className="text-sm text-emerald-200/80 mb-8">
               Doa restu Anda merupakan karunia yang sangat berarti bagi kami. Namun jika memberi adalah ungkapan tanda kasih Anda, kami ucapkan terima kasih.
             </p>
-
-            <div className="space-y-4">
-              {bankAccounts.map((acc, idx) => (
-                <div key={idx} className="bg-emerald-950 border border-amber-500/30 p-6 rounded-xl shadow-lg relative overflow-hidden group">
-                  <div className="absolute top-0 left-0 w-2 h-full bg-amber-500"></div>
-                  <div className="text-left pl-4">
-                    <p className="text-amber-500 text-sm font-bold tracking-widest mb-1">{acc.bank}</p>
-                    <div className="flex items-center gap-2 mb-1">
-                      <p className="text-2xl font-bold text-amber-50">{acc.number}</p>
-                      <button 
-                        onClick={() => handleCopy(acc.number)}
-                        className="p-2 bg-emerald-900 hover:bg-emerald-800 rounded-full text-amber-400 transition-colors"
-                        title="Salin Nomor Rekening"
-                      >
-                        <Copy size={16} />
-                      </button>
-                    </div>
-                    <p className="text-emerald-200/60 text-sm">a.n {acc.name}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
         </section>
 
@@ -341,12 +305,12 @@ export default function Home() {
 
             <div className="pt-12 mt-8 border-t border-amber-500/20">
               <p className="text-xs uppercase tracking-widest text-amber-500/70 mb-2">Kami yang berbahagia,</p>
-              <p className="font-amiri text-2xl text-amber-400 font-bold mb-1">H.M Ridwan Abdulloh</p>
+              <p className="font-amiri text-2xl text-amber-400 font-bold mb-1">H. M Ridwan Abdulloh</p>
               <p className="font-vibes text-xl text-amber-200">&</p>
-              <p className="font-amiri text-2xl text-amber-400 font-bold mt-1">Hj Eva Muzdalifah</p>
+              <p className="font-amiri text-2xl text-amber-400 font-bold mt-1">Hj. Eva Muzdalifah</p>
             </div>
             
-            <p className="text-[10px] text-emerald-500/30 pt-10">Undangan Digital by Next.js</p>
+            <p className="text-[10px] text-emerald-500/30 pt-10">Undangan Digital by HeavensQue</p>
           </div>
         </section>
 
